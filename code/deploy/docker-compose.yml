@@ -1,0 +1,60 @@
+version: '3'
+
+services:
+  mongo:
+    image: mongo:1.0.0
+    build: ./database
+    volumes:
+      - ./database/data:/data/db
+    restart: always
+    networks:
+      - back
+    #ports:
+      #- "27017:27017"
+
+  api:
+    image: api:1.0.0
+    build: ../api
+    volumes:
+      - ../api/public:/user/src/app/public
+      - ../api/uploads:/user/src/app/uploads
+    restart: always
+    networks:
+      - front
+      - back
+    depends_on:
+      - mongo
+
+  web:
+    image: web:1.0.0
+    build: ../web
+    restart: always
+    networks:
+      - front
+    depends_on:
+      - api
+
+  proxy:
+    image: nginx
+    volumes:
+      - ./proxy:/etc/nginx/conf.d/proxy.conf
+      - /dh-param/dhparam-2048.pem:/etc/ssl/certs/dhparam-2048.pem
+      - /docker-volumes/etc/letsencrypt/live/hiresmart.app/fullchain.pem:/etc/letsencrypt/live/hiresmart.app/fullchain.pem
+      - /docker-volumes/etc/letsencrypt/live/hiresmart.app/privkey.pem:/etc/letsencrypt/live/hiresmart.app/privkey.pem
+      - /docker-volumes/data/letsencrypt:/data/letsencrypt
+    restart: always
+    networks:
+      - front
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - mongo
+      - api
+      - web
+
+networks:
+  front:
+    driver: bridge
+  back:
+    driver: bridge

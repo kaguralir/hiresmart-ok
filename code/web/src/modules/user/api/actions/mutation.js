@@ -170,7 +170,7 @@ export function verifyUpdateAccount(details, isLoading = true) {
         operation: 'userVerifyUpdateAccount',
         params: details,
       })
-
+      console.log(" data is ", data);
       let message = ''
 
       if (data.errors && data.errors.length > 0) {
@@ -179,6 +179,7 @@ export function verifyUpdateAccount(details, isLoading = true) {
         const token = data.data.token
         const user = data.data.user
 
+        console.log(" token is ", data.data.token);
         dispatch(setUser(token, user))
 
         loginSetUserLocalStorage(token, user)
@@ -192,9 +193,10 @@ export function verifyUpdateAccount(details, isLoading = true) {
       })
     } catch (error) {
       console.log("error connection is ", error);
+
       dispatch({
         type: MESSAGE_SHOW,
-        message: 'There was some server error. Please try again.'
+        message: 'There was some server error. Please try again1.'
       })
     } finally {
       dispatch({
@@ -246,7 +248,7 @@ export function acceptInvite(invite, isLoading = true) {
       console.log("error connection is ", error);
       dispatch({
         type: MESSAGE_SHOW,
-        message: 'There was some server error. Please try again.'
+        message: 'There was some server error. Please try again2.'
       })
     } finally {
       dispatch({
@@ -298,7 +300,7 @@ export function update(details, isLoading = true) {
       console.log("error connection is ", error);
       dispatch({
         type: MESSAGE_SHOW,
-        message: 'There was some server error. Please try again.'
+        message: 'There was some server error. Please try again3.'
       })
     } finally {
       dispatch({
@@ -370,7 +372,7 @@ export function resetPasswordUpdate(details, isLoading = true) {
       console.log("error connection is ", error);
       dispatch({
         type: MESSAGE_SHOW,
-        message: 'There was some server error. Please try again.'
+        message: 'There was some server error. Please try again4.'
       })
     } finally {
       dispatch({

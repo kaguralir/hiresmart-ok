@@ -72,7 +72,7 @@ class CreateOrEdit extends PureComponent {
 
     console.log(interview)
 
-    if(interview && interview._id !== this.state.id) {
+    if (interview && interview._id !== this.state.id) {
       this.setState({
         id: interview._id,
         projectId: interview.projectId._id,
@@ -113,7 +113,7 @@ class CreateOrEdit extends PureComponent {
     const { id, projectId, candidateId, interviewerId, dateTime, mode, note, invite } = this.state
 
     // Validate
-    if(!isEmpty(projectId) && !isEmpty(candidateId) && !isEmpty(interviewerId)) {
+    if (!isEmpty(projectId) && !isEmpty(candidateId) && !isEmpty(interviewerId)) {
       messageShow('Adding interviewer, please wait..')
 
       this.isLoadingToggle(true)
@@ -122,7 +122,7 @@ class CreateOrEdit extends PureComponent {
       try {
         const { data } = await createOrUpdate({ id, projectId, candidateId, interviewerId, dateTime: dateTime.format(), mode, note, invite })
 
-        if(data.errors && data.errors.length > 0) {
+        if (data.errors && data.errors.length > 0) {
           messageShow(data.errors[0].message)
         } else {
           // Update interviewers list
@@ -131,13 +131,13 @@ class CreateOrEdit extends PureComponent {
           // Reset form data
           this.reset()
 
-          if(!isEmpty(id)) {
+          if (!isEmpty(id)) {
             messageShow('Interview updated successfully.')
           } else {
             messageShow('Interview added successfully.')
           }
         }
-      } catch(error) {
+      } catch (error) {
         messageShow('There was some error. Please try again.')
       } finally {
         this.isLoadingToggle(false)
@@ -173,7 +173,7 @@ class CreateOrEdit extends PureComponent {
           variant={'subtitle1'}
           color={'inherit'}
         >
-          { id === '' ? `Schedule an interview` : `Edit interview` }
+          {id === '' ? `Schedule an interview` : `Edit interview`}
         </Typography>
 
         <form onSubmit={this.save}>
@@ -202,12 +202,12 @@ class CreateOrEdit extends PureComponent {
                   candidatesByProject.isLoading
                     ? <Loading />
                     : candidatesByProject.list && candidatesByProject.list.length > 0
-                        ? candidatesByProject.list.map(candidate => (
-                            <MenuItem key={candidate._id} value={candidate._id}>{ candidate.name }</MenuItem>
-                          ))
-                        : <MenuItem value="">
-                            <em>No candidate added.</em>
-                          </MenuItem>
+                      ? candidatesByProject.list.map(candidate => (
+                        <MenuItem key={candidate._id} value={candidate._id}>{candidate.name}</MenuItem>
+                      ))
+                      : <MenuItem value="">
+                        <em>No candidate added.</em>
+                      </MenuItem>
                 }
               </Select>
             </FormControl>
@@ -237,12 +237,12 @@ class CreateOrEdit extends PureComponent {
                   interviewersByProject.isLoading
                     ? <Loading />
                     : interviewersByProject.list && interviewersByProject.list.length > 0
-                        ? interviewersByProject.list.map(interviewer => (
-                            <MenuItem key={interviewer._id} value={interviewer._id}>{ interviewer.name }</MenuItem>
-                          ))
-                        : <MenuItem value="">
-                            <em>No interviewer added.</em>
-                          </MenuItem>
+                      ? interviewersByProject.list.map(interviewer => (
+                        <MenuItem key={interviewer._id} value={interviewer._id}>{interviewer.name}</MenuItem>
+                      ))
+                      : <MenuItem value="">
+                        <em>No interviewer added.</em>
+                      </MenuItem>
                 }
               </Select>
             </FormControl>
@@ -250,9 +250,10 @@ class CreateOrEdit extends PureComponent {
 
           {/* Input - dateTime */}
           <Grid item xs={12}>
+            <p>CHOOSE A DATE TEST</p>
             <Datetime
               onChange={this.onDateSelect}
-              value={dateTime ? dateTime.format(`${ params.date.format.date } ${ params.date.format.time }`) : '' }
+              value={dateTime ? dateTime.format(`${params.date.format.date} ${params.date.format.time}`) : ''}
               dateFormat={params.date.format.date}
               timeFormat={params.date.format.time}
               renderInput={
@@ -295,7 +296,7 @@ class CreateOrEdit extends PureComponent {
                 </MenuItem>
                 {
                   params.interview.modes.map(mode => (
-                    <MenuItem key={mode.key} value={mode.key}>{ mode.name }</MenuItem>
+                    <MenuItem key={mode.key} value={mode.key}>{mode.name}</MenuItem>
                   ))
                 }
               </Select>

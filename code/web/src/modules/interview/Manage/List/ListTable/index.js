@@ -31,7 +31,7 @@ const ListTable = (props) => {
         <TableRow>
           <TableCell>Candidate</TableCell>
           <TableCell>Interviewer</TableCell>
-          <TableCell title={'Year-Month-Date Hour:Minute'}>Date and time</TableCell>
+          <TableCell title={'Year-Month-Date Hour:Minute'}>Date and time TEST</TableCell>
           <TableCell width={200} className={classes.textCenter}>Actions</TableCell>
         </TableRow>
       </TableHead>
@@ -41,44 +41,44 @@ const ListTable = (props) => {
           list && list.length > 0
             ? list.map(interview => (
               <TableRow key={interview._id}>
-                  <TableCell>{ interview.candidateId.name }</TableCell>
-                  <TableCell>{ interview.interviewerId.name }</TableCell>
-                  <TableCell>{ moment(new Date(interview.dateTime)).format(`${ params.date.format.nice.date }, ${ params.date.format.nice.time }`)  }</TableCell>
-                  <TableCell className={classes.textCenter}>
-                    <Tooltip title={'Send reminder'} placement={'top'} enterDelay={500}>
-                      <IconButton
-                        aria-label={'Send reminder'}
-                        onClick={remind(interview)}
-                      >
-                        <IconEmail className={classes.icon} />
-                      </IconButton>
-                    </Tooltip>
+                <TableCell>{interview.candidateId.name}</TableCell>
+                <TableCell>{interview.interviewerId.name}</TableCell>
+                <TableCell>{moment(new Date(interview.dateTime)).format(`${params.date.format.nice.date}, ${params.date.format.nice.time}`)}</TableCell>
+                <TableCell className={classes.textCenter}>
+                  <Tooltip title={'Send reminder'} placement={'top'} enterDelay={500}>
+                    <IconButton
+                      aria-label={'Send reminder'}
+                      onClick={remind(interview)}
+                    >
+                      <IconEmail className={classes.icon} />
+                    </IconButton>
+                  </Tooltip>
 
-                    <Tooltip title={'View all details'} placement={'top'} enterDelay={500}>
-                      <IconButton
-                        aria-label={'View all details'}
-                        onClick={view(interview)}
-                      >
-                        <IconVisibility className={classes.icon} />
-                      </IconButton>
-                    </Tooltip>
+                  <Tooltip title={'View all details'} placement={'top'} enterDelay={500}>
+                    <IconButton
+                      aria-label={'View all details'}
+                      onClick={view(interview)}
+                    >
+                      <IconVisibility className={classes.icon} />
+                    </IconButton>
+                  </Tooltip>
 
-                    <Tooltip title={'Edit'} placement={'top'} enterDelay={500}>
-                      <IconButton
-                        aria-label={'Edit'}
-                        onClick={edit(interview)}
-                      >
-                        <IconEdit className={classes.icon} />
-                      </IconButton>
-                    </Tooltip>
-                  </TableCell>
-                </TableRow>
-              ))
-            : <TableRow>
-                <TableCell colSpan={4}>
-                  <EmptyMessage message={'You have not scheduled any interviews yet.'} />
+                  <Tooltip title={'Edit'} placement={'top'} enterDelay={500}>
+                    <IconButton
+                      aria-label={'Edit'}
+                      onClick={edit(interview)}
+                    >
+                      <IconEdit className={classes.icon} />
+                    </IconButton>
+                  </Tooltip>
                 </TableCell>
               </TableRow>
+            ))
+            : <TableRow>
+              <TableCell colSpan={4}>
+                <EmptyMessage message={'You have not scheduled any interviews yet.'} />
+              </TableCell>
+            </TableRow>
         }
       </TableBody>
     </Table>

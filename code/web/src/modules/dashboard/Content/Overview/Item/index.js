@@ -44,19 +44,20 @@ class Item extends PureComponent {
           onClick={detailsOpen}
         >
           {/* Item details */}
+          <p>CANDIDATE ITEM</p>
           <Typography variant={'h6'} className={classes.name} gutterBottom>
-            { candidateId.name }
+            {candidateId.name}
           </Typography>
 
           {
             candidateId.jobId && candidateId.jobId.role &&
             <Typography color="textSecondary" title={'Job role'}>
-              { candidateId.jobId.role }
+              {candidateId.jobId.role}
             </Typography>
           }
 
           <Typography color="textSecondary" title={'Experience'}>
-            { candidateId.experience } year{ plural(candidateId.experience) }
+            {candidateId.experience} year{plural(candidateId.experience)}
           </Typography>
 
           {/* Interviews */}
@@ -68,7 +69,8 @@ class Item extends PureComponent {
               {
                 interviews.map(interview => (
                   <List key={interview._id} dense={true}>
-                    <ListItem title={`Date and time of ${ interview.mode } interview`} className={classes.infoItem}>
+                    <p>INTERVIEW ITEM</p>
+                    <ListItem title={`Date and time of ${interview.mode} interview`} className={classes.infoItem}>
                       <ListItemIcon className={classes.infoItemIcon}>
                         {
                           {
@@ -81,7 +83,7 @@ class Item extends PureComponent {
                       </ListItemIcon>
 
                       <ListItemText
-                        primary={moment(new Date(interview.dateTime)).format(`${ params.date.format.nice.date }, ${ params.date.format.nice.time }`)}
+                        primary={moment(new Date(interview.dateTime)).format(`${params.date.format.nice.date}, ${params.date.format.nice.time}`)}
                         className={classes.infoItemText}
                       />
                     </ListItem>
@@ -91,10 +93,10 @@ class Item extends PureComponent {
                         {
                           interview.feedbackId
                             ? {
-                                hold: <IconThumbsUpDown />,
-                                rejected: <IconThumbDown />,
-                                selected: <IconThumbUp />,
-                              }[interview.feedbackId.status]
+                              hold: <IconThumbsUpDown />,
+                              rejected: <IconThumbDown />,
+                              selected: <IconThumbUp />,
+                            }[interview.feedbackId.status]
                             : <IconThumbsUpDown />
                         }
                       </ListItemIcon>

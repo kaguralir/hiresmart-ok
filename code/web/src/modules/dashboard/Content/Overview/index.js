@@ -51,7 +51,7 @@ class Overview extends PureComponent {
   componentWillReceiveProps(nextProps) {
     const { projectDashboard: { project } } = nextProps
 
-    if(project._id !== this.props.projectDashboard.project._id) {
+    if (project._id !== this.props.projectDashboard.project._id) {
       this.refresh(true, false, project._id)
     }
   }
@@ -64,7 +64,7 @@ class Overview extends PureComponent {
 
   columnWidth = () => {
     let width = parseInt((window.innerWidth - 250) / params.kanban.columns.length, 10) - 1
-    if(width < 200) {
+    if (width < 200) {
       width = 200
     }
     return width
@@ -99,9 +99,9 @@ class Overview extends PureComponent {
   columnCount = (key) => {
     const { kanbansByProject } = this.props
 
-    const count =  kanbansByProject.list && kanbansByProject.list.length > 0 && kanbansByProject.list.filter(item => item.status === key).length
+    const count = kanbansByProject.list && kanbansByProject.list.length > 0 && kanbansByProject.list.filter(item => item.status === key).length
 
-    return count > 0 ? `(${ count })` : ''
+    return count > 0 ? `(${count})` : ''
   }
 
   itemDropped = async (kanbanId, columnKey) => {
@@ -112,14 +112,14 @@ class Overview extends PureComponent {
     try {
       const { data } = await updateKanbanStatus({ id: kanbanId, status: columnKey })
 
-      if(data.errors && data.errors.length > 0) {
+      if (data.errors && data.errors.length > 0) {
         messageShow(data.errors[0].message)
       } else {
         // messageHide()
 
         this.refresh(false)
       }
-    } catch(error) {
+    } catch (error) {
       messageShow('There was some error. Please try again.')
     }
   }
@@ -162,105 +162,109 @@ class Overview extends PureComponent {
               isLoading
                 ? <Loading />
                 : <Fade in={true}>
-                    <div>
-                      <div
-                        className={classes.columnsContainer}
-                        style={{ width: (this.columnWidth() * columns.length) + columns.length }}
-                      >
-                        {/* Columns */}
-                        { columns.map((column, i) => (
-                          <Column
-                            key={column.key}
-                            columnKey={column.key}
-                            columnWidth={this.columnWidth()}
-                            last={i !== columns.length - 1}
-                            itemDropped={this.itemDropped}
-                          >
-                            <div>
-                              {/* Column Title */}
-                              <div
-                                className={classes.columnTitle}
-                                style={{ borderBottom: `2px solid ${ column.color }`,  }}
-                              >
-                                <Tooltip title={column.help} placement={'top'} enterDelay={100}>
-                                  <Typography variant="button" style={{ color: grey[800], textTransform: 'uppercase', fontWeight: 400, fontSize: '0.75rem' }}>
-                                    { column.name } { this.columnCount(column.key) }
-                                  </Typography>
-                                </Tooltip>
-                              </div>
-
-                              {/* Candidates */}
-                              <div className={classes.itemContainer}>
-                                {
-                                  list && list.length > 0 && list.map(
-                                    item => item.status === column.key &&
-                                      <Item
-                                        key={item._id}
-                                        item={item}
-                                        detailsOpen={this.detailsOpen(item._id)}
-                                      />
-                                  )
-                                }
-
-                                {/* Add */}
-                                {
-                                  i === 0 &&
-                                  <Button
-                                    fullWidth={true}
-                                    className={list && list.length > 0 ? classes.columnButtonAdd : classes.columnButtonAddPrimary}
-                                    onClick={this.add}
-                                  >
-                                    Add Candidate
-                                  </Button>
-                                }
-                              </div>
+                  <div>
+                    <p>KANBAN TEST HERE</p>
+                    <div
+                      className={classes.columnsContainer}
+                      style={{ width: (this.columnWidth() * columns.length) + columns.length }}
+                    >
+                      {/* Columns */}
+                      {columns.map((column, i) => (
+                        <Column
+                          key={column.key}
+                          columnKey={column.key}
+                          columnWidth={this.columnWidth()}
+                          last={i !== columns.length - 1}
+                          itemDropped={this.itemDropped}
+                        >
+                          <div>
+                            {/* Column Title */}
+                            <div
+                              className={classes.columnTitle}
+                              style={{ borderBottom: `2px solid ${column.color}`, }}
+                            >
+                              <Tooltip title={column.help} placement={'top'} enterDelay={100}>
+                                <Typography variant="button" style={{ color: grey[800], textTransform: 'uppercase', fontWeight: 400, fontSize: '0.75rem' }}>
+                                  {column.name} {this.columnCount(column.key)}
+                                </Typography>
+                              </Tooltip>
                             </div>
-                          </Column>
-                        )) }
-                      </div>
 
-                      {/* Candidate info */}
-                      <Drawer
-                        anchor={'right'}
-                        open={detailsOpen}
-                        onClose={this.toggleDrawer(false)}
-                        ModalProps={{
-                          BackdropProps: {
-                            classes: { root: classes.backdrop }
-                          }
-                        }}
-                      >
-                        <div className={classes.drawer}>
-                          <Details
-                            kanbanId={kanbanId}
-                            toggleDrawer={this.toggleDrawer}
-                          />
-                        </div>
-                      </Drawer>
+                            {/* Candidates */}
+                            <div className={classes.itemContainer}>
+                              <p>CANDIDATE TEST</p>
+                              {
+                                list && list.length > 0 && list.map(
+                                  item => item.status === column.key &&
+                                    <Item
+                                      key={item._id}
+                                      item={item}
+                                      detailsOpen={this.detailsOpen(item._id)}
+                                    />
 
-                      {/* Candidate create or edit */}
-                      <Drawer
-                        anchor={'right'}
-                        open={drawerAdd}
-                        onClose={this.toggleDrawerAdd(false)}
-                        ModalProps={{
-                          BackdropProps: {
-                            classes: { root: classes.backdrop }
-                          }
-                        }}
-                      >
-                        <div className={classes.drawer}>
-                          <CreateOrEdit
-                            elevation={0}
-                            projectId={project._id}
-                            projectShowLoading={false}
-                            successCallback={this.successCallback}
-                            projectSelectionHide={true}
-                          />
-                        </div>
-                      </Drawer>
+                                )
+
+                              }
+
+                              {/* Add */}
+                              {
+                                i === 0 &&
+                                <Button
+                                  fullWidth={true}
+                                  className={list && list.length > 0 ? classes.columnButtonAdd : classes.columnButtonAddPrimary}
+                                  onClick={this.add}
+                                >
+                                  Add Candidate
+                                </Button>
+                              }
+                            </div>
+                          </div>
+                        </Column>
+                      ))}
                     </div>
-                  </Fade>
+
+                    {/* Candidate info */}
+                    <Drawer
+                      anchor={'right'}
+                      open={detailsOpen}
+                      onClose={this.toggleDrawer(false)}
+                      ModalProps={{
+                        BackdropProps: {
+                          classes: { root: classes.backdrop }
+                        }
+                      }}
+                    >
+                      <div className={classes.drawer}>
+                        <Details
+                          kanbanId={kanbanId}
+                          toggleDrawer={this.toggleDrawer}
+                        />
+                      </div>
+                    </Drawer>
+
+                    {/* Candidate create or edit */}
+                    <Drawer
+                      anchor={'right'}
+                      open={drawerAdd}
+                      onClose={this.toggleDrawerAdd(false)}
+                      ModalProps={{
+                        BackdropProps: {
+                          classes: { root: classes.backdrop }
+                        }
+                      }}
+                    >
+                      <div className={classes.drawer}>
+                        <CreateOrEdit
+                          elevation={0}
+                          projectId={project._id}
+                          projectShowLoading={false}
+                          successCallback={this.successCallback}
+                          projectSelectionHide={true}
+                        />
+                      </div>
+                    </Drawer>
+                  </div>
+                </Fade>
             }
           </div>
         </div>
